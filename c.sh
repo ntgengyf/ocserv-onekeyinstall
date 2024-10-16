@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 clear
-ciscoportt=8080
+ciscoportt=443
 echo -e "\nPlease input Cisco Port ."
 printf "Default Port is \e[33m${ciscoportt}\e[0m, let it blank to use this Port: "
 read defciscoport
@@ -87,18 +87,18 @@ Download_ocserv(){
     
     if [[ -e ${file} ]]; then
         mkdir "${conf_file}"
-        wget --no-check-certificate -N -P "${conf_file}" "https://raw.githubusercontent.com/HamedAp/Ocserv-Ubuntu/main/ocserv.conf"
+        wget --no-check-certificate -N -P "${conf_file}" "https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.conf"
         [[ ! -s "${conf}" ]] && echo -e "${Error} ocserv config download failed!" && rm -rf "${conf_file}" && exit 1
     else
         echo -e "${Error} ocserv compiled failed!" && exit 1
     fi
 }
 Service_ocserv(){
-    if ! wget --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/service/ocserv_debian -O /etc/init.d/ocserv; then
+    if ! wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.service -O /etc/systemd/system/ocserv.service && wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.socket -O /etc/systemd/system/ocserv.socket; then
         echo -e "${Error} ocserv service management script downloadf failed!" && over
     fi
-    chmod +x /etc/init.d/ocserv
-    update-rc.d -f ocserv defaults
+    systemctl daemon-reload
+    systemctl enable ocserv.socket
     echo -e "${Info} ocserv service management script download successfully."
 }
 rand(){
@@ -159,13 +159,8 @@ Installation_dependency(){
             apt-get update
             apt-get install vim net-tools pkg-config build-essential libgnutls28-dev libwrap0-dev liblz4-dev libseccomp-dev libreadline-dev libnl-nf-3-dev libev-dev gnutls-bin gawk ipcalc ipcalc-ng -y
         else
-#            mv /etc/apt/sources.list /etc/apt/sources.list.bak
-#            wget --no-check-certificate -O "/etc/apt/sources.list" "https://raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/sources/us.sources.list"
             apt-get update
             apt-get install vim net-tools pkg-config build-essential libgnutls28-dev libwrap0-dev liblz4-dev libseccomp-dev libreadline-dev libnl-nf-3-dev libev-dev gnutls-bin gawk ipcalc ipcalc-ng -y
-#            rm -rf /etc/apt/sources.list
-#            mv /etc/apt/sources.list.bak /etc/apt/sources.list
-#            apt-get update
         fi
     else
         apt-get update
@@ -199,7 +194,7 @@ Start_ocserv(){
     check_installed_status
     check_pid
     [[ ! -z ${PID} ]] && echo -e "${Error} ocserv is running !" && exit 1
-    /etc/init.d/ocserv start
+    systemctl restart ocserv.socket
     sleep 2s
     check_pid
     [[ ! -z ${PID} ]] && View_Config
@@ -208,13 +203,13 @@ Stop_ocserv(){
     check_installed_status
     check_pid
     [[ -z ${PID} ]] && echo -e "${Error} ocserv is NOT running !" && exit 1
-    /etc/init.d/ocserv stop
+    systemctl stop ocserv.service
 }
 Restart_ocserv(){
     check_installed_status
     check_pid
-    [[ ! -z ${PID} ]] && /etc/init.d/ocserv stop
-    /etc/init.d/ocserv start
+    [[ ! -z ${PID} ]] && systemctl stop ocserv.service
+    systemctl restart ocserv.socket
     sleep 2s
     check_pid
     [[ ! -z ${PID} ]] && View_Config
