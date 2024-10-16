@@ -75,15 +75,13 @@ Get_ip(){
     fi
 }
 Download_ocserv(){
-    mkdir "ocserv" && cd "ocserv"
-    wget --inet4-only "https://www.infradead.org/ocserv/download/ocserv-${ocserv_ver}.tar.xz"
+    wget --inet4-only "https://www.infradead.org/ocserv/download/ocserv-${ocserv_ver}.tar.xz" -O /usr/local/src/
     [[ ! -s "ocserv-${ocserv_ver}.tar.xz" ]] && echo -e "${Error} ocserv source download failed!" && rm -rf "ocserv/" && rm -rf "ocserv-${ocserv_ver}.tar.xz" && exit 1
+    cd /usr/local/src/
     tar -xJf ocserv-${ocserv_ver}.tar.xz && cd ocserv-${ocserv_ver}
     ./configure
     make
     make install
-    cd .. && cd ..
-    rm -rf ocserv/
     
     if [[ -e ${file} ]]; then
         mkdir "${conf_file}"
