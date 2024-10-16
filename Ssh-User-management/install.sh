@@ -1,5 +1,6 @@
 #!/bin/bash
 # hostname ShahanPanel.link
+echo "Only Ubuntu Supported"
 echo "#shahanDNS
 nameserver 8.8.8.8" >> /etc/resolv.conf
 printshahan() {
