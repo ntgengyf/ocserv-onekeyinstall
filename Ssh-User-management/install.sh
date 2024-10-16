@@ -67,7 +67,7 @@ echo "#shahansources
 fi
 
 sudo sed -i 's/^session.gc_maxlifetime = .*/session.gc_maxlifetime = 86400/' /etc/php/8.1/apache2/php.ini
-
+apt install curl -y
 
 
 clear
