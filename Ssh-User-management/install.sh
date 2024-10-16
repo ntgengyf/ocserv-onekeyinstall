@@ -1,7 +1,7 @@
 #!/bin/bash
 # hostname ShahanPanel.link
 echo "#shahanDNS
-#nameserver 8.8.8.8" > /etc/resolv.conf
+nameserver 8.8.8.8" >> /etc/resolv.conf
 printshahan() {
     text="$1"
     delay="$2"
@@ -54,16 +54,16 @@ sudo chmod 755 /root/updatesignbox.sh.x
 if grep -q -E '^shahansources$' /etc/apt/sources.list; then
     echo "all good, do nothing";
 else
-#sudo sed -i '/shahansources/d' /etc/apt/sources.list 
-#sudo sed -i '/ubuntu focal main restricted universe/d' /etc/apt/sources.list 
-#sudo sed -i '/ubuntu focal-updates main restricted universe/d' /etc/apt/sources.list 
-#sudo sed -i '/ubuntu focal-security main restricted universe multiverse/d' /etc/apt/sources.list 
-#sudo sed -i '/ubuntu focal partner/d' /etc/apt/sources.list 
+sudo sed -i '/shahansources/d' /etc/apt/sources.list 
+sudo sed -i '/ubuntu $(lsb_release -cs) main restricted universe/d' /etc/apt/sources.list 
+sudo sed -i '/ubuntu $(lsb_release -cs)-updates main restricted universe/d' /etc/apt/sources.list 
+sudo sed -i '/ubuntu $(lsb_release -cs)-security main restricted universe multiverse/d' /etc/apt/sources.list 
+sudo sed -i '/ubuntu $(lsb_release -cs) partner/d' /etc/apt/sources.list 
 echo "#shahansources
-#deb http://archive.ubuntu.com/ubuntu focal main restricted universe
-#deb http://archive.ubuntu.com/ubuntu focal-updates main restricted universe
-#deb http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
-#deb http://archive.canonical.com/ubuntu focal partner" >> /etc/apt/sources.list
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main restricted universe
+deb http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main restricted universe
+deb http://security.ubuntu.com/ubuntu $(lsb_release -cs)-security main restricted universe multiverse
+deb http://archive.canonical.com/ubuntu $(lsb_release -cs) partner" >> /etc/apt/sources.list
 fi
 
 sudo sed -i 's/^session.gc_maxlifetime = .*/session.gc_maxlifetime = 86400/' /etc/php/8.1/apache2/php.ini
@@ -127,7 +127,7 @@ sed -i 's@#PrintMotd no@PrintMotd yes@' /etc/ssh/sshd_config
 if command -v apt-get >/dev/null; then
 
 apt update -y
-apt upgrade -y
+#apt upgrade -y
 rm -fr /etc/php/7.4/apache2/conf.d/00-ioncube.ini
 sudo apt -y install software-properties-common
 apt install shc gcc -y
