@@ -94,8 +94,11 @@ Download_ocserv(){
     fi
 }
 Service_ocserv(){
-    if ! wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.service -O /etc/systemd/system/ocserv.service && wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.socket -O /etc/systemd/system/ocserv.socket; then
+    if ! wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.service -O /etc/systemd/system/ocserv.service; then
         echo -e "${Error} ocserv service management script downloadf failed!" && over
+    if ! wget --no-check-certificate https://raw.githubusercontent.com/ntgengyf/ocserv-onekeyinstall/main/ocserv.socket -O /etc/systemd/system/ocserv.socket; then
+        echo -e "${Error} ocserv socket management script downloadf failed!" && over
+    fi
     fi
     systemctl daemon-reload
     systemctl enable ocserv.socket
