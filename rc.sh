@@ -18,9 +18,10 @@ Save_iptables(){
     iptables-save > /etc/iptables.up.rules
 }
 
-
-update-rc.d -f ocserv remove
-rm -rf /etc/init.d/ocserv
+cd /usr/local/src/ocserv-1.3.0 && make uninstall
+rm -rf /usr/local/src/ocserv*
+systemctl disable --now ocserv.socket
+rm -rf /etc/systemd/system/ocserv.*
 rm -rf "${conf_file}"
 rm -rf "${log_file}"
 cd '/usr/local/bin' && rm -f occtl
