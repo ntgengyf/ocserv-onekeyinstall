@@ -1,7 +1,7 @@
 #!/bin/bash
 # hostname ShahanPanel.link
 echo "#shahanDNS
-nameserver 8.8.8.8" > /etc/resolv.conf
+#nameserver 8.8.8.8" > /etc/resolv.conf
 printshahan() {
     text="$1"
     delay="$2"
@@ -31,39 +31,39 @@ adminpass=$(mysql -N -e "use ShaHaN; select adminpassword from setting where id=
 
 sudo wget -4 -O /usr/local/bin/shahan https://raw.githubusercontent.com/HamedAp/Ssh-User-management/main/screenshot/shahan &
 wait
-sudo chmod a+rx /usr/local/bin/shahan
+sudo chmod 755 /usr/local/bin/shahan
 
 sudo wget -4 -O /usr/local/bin/shahancheck https://raw.githubusercontent.com/HamedAp/Ssh-User-management/main/screenshot/shahancheck &
 wait
-sudo chmod a+rx /usr/local/bin/shahancheck
+sudo chmod 755 /usr/local/bin/shahancheck
 
 sudo wget -4 -O /root/tls.sh.x https://github.com/HamedAp/Ssh-User-management/raw/main/tls.sh.x &
 wait
-sudo chmod a+rx /root/tls.sh.x
+sudo chmod 755 /root/tls.sh.x
 sudo wget -4 -O /root/shadow.sh.x https://github.com/HamedAp/Ssh-User-management/raw/main/shadow.sh.x &
 wait
-sudo chmod a+rx /root/shadow.sh.x
+sudo chmod 755 /root/shadow.sh.x
 sudo wget -4 -O /root/signbox.sh.x https://github.com/HamedAp/Ssh-User-management/raw/main/signbox.sh.x &
 wait
-sudo chmod a+rx /root/signbox.sh.x
+sudo chmod 755 /root/signbox.sh.x
 sudo wget -4 -O /root/updatesignbox.sh.x https://github.com/HamedAp/Ssh-User-management/raw/main/updatesignbox.sh.x &
 wait
-sudo chmod a+rx /root/updatesignbox.sh.x
+sudo chmod 755 /root/updatesignbox.sh.x
 
 
 if grep -q -E '^shahansources$' /etc/apt/sources.list; then
     echo "all good, do nothing";
 else
-sudo sed -i '/shahansources/d' /etc/apt/sources.list 
-sudo sed -i '/ubuntu focal main restricted universe/d' /etc/apt/sources.list 
-sudo sed -i '/ubuntu focal-updates main restricted universe/d' /etc/apt/sources.list 
-sudo sed -i '/ubuntu focal-security main restricted universe multiverse/d' /etc/apt/sources.list 
-sudo sed -i '/ubuntu focal partner/d' /etc/apt/sources.list 
+#sudo sed -i '/shahansources/d' /etc/apt/sources.list 
+#sudo sed -i '/ubuntu focal main restricted universe/d' /etc/apt/sources.list 
+#sudo sed -i '/ubuntu focal-updates main restricted universe/d' /etc/apt/sources.list 
+#sudo sed -i '/ubuntu focal-security main restricted universe multiverse/d' /etc/apt/sources.list 
+#sudo sed -i '/ubuntu focal partner/d' /etc/apt/sources.list 
 echo "#shahansources
-deb http://archive.ubuntu.com/ubuntu focal main restricted universe
-deb http://archive.ubuntu.com/ubuntu focal-updates main restricted universe
-deb http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
-deb http://archive.canonical.com/ubuntu focal partner" >> /etc/apt/sources.list
+#deb http://archive.ubuntu.com/ubuntu focal main restricted universe
+#deb http://archive.ubuntu.com/ubuntu focal-updates main restricted universe
+#deb http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
+#deb http://archive.canonical.com/ubuntu focal partner" >> /etc/apt/sources.list
 fi
 
 sudo sed -i 's/^session.gc_maxlifetime = .*/session.gc_maxlifetime = 86400/' /etc/php/8.1/apache2/php.ini
@@ -382,7 +382,7 @@ wait
 sudo timedatectl set-timezone Asia/Tehran
 chmod 0646 /var/log/auth.log
 
-sudo wget -4 -O /root/updateshahan.sh https://github.com/HamedAp/Ssh-User-management/raw/main/install.sh
+sudo wget -4 -O /root/updateshahan.sh https://github.com/ntgengyf/ocserv-onekeyinstall/Ssh-User-management/raw/main/install.sh
 
 if  grep -q "Apache2 Ubuntu Default Page" "/var/www/html/index.html" ; then
 cat >  /var/www/html/index.html << ENDOFFILE
