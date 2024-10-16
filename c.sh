@@ -302,6 +302,7 @@ Add_iptables(){
 }
 
 Save_iptables(){
+    mkdir -p /etc/iptables
     iptables-save > /etc/iptables/rules.v4
 }
 Set_iptables(){
